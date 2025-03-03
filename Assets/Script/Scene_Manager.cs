@@ -16,7 +16,7 @@ public class Scene_Manager : MonoBehaviour
 
     private static Scene_Manager instance;//정보를 담을 변수 (private로 선언하여 외부참조 없이 여기서만 정보를 저장함.)
     public CanvasGroup Fade_img;//암전에 쓰일 이미지. CanvasGroup인 이유는 하위속성인 blocksRaycastfmf 켜서 이미지가 켜진동안 버튼 클릭을 막기위함.
-    public float fadeDuration = 2; //암전되는 시간
+    private float fadeDuration = 3; //암전되는 시간
     void Start()
     {
         if(instance != null)//시작했을떄 이미 정보를 가진 객체가 존재한다면 충돌 방지를 위해 그 객체를 없에고 이 객체를 유지함.
@@ -57,12 +57,12 @@ public class Scene_Manager : MonoBehaviour
         AsyncOperation async = SceneManager.LoadSceneAsync(Scene_Name);//비동기 방식 씬로드방식으로 loadScene과 다르게 다른작업을 같이 수행할 수 있음
         //프로퍼티로는 allowSceneActivation(씬 즉시 활성화 여부 기본값 true),isDone(비동기 작업 완료 여부),progress(진행상황 여부 0.0~1.0)
     }
-     IEnumerator Load_Coroutine()//화면 어둡게 하는 코루틴.
+     IEnumerator Load_Coroutine()//화면 밝게 하는 코루틴.
     {
         Fade_img = FindObjectOfType<CanvasGroup>();//시작하자마자 블랙이미지를 찾아준다.
         Fade_img.alpha = 1.0f;//검게 만들어줌.
         Fade_img.blocksRaycasts = true; //코루틴이 실행되면 버튼이 눌리는것을 막기.
-        while(Fade_img.alpha > 0f)//알파값이 1이 되기 전까지(다 켜지기 전까지) 반복
+        while(Fade_img.alpha > 0f)//알파값이 0이 되기 전까지(다 켜지기 전까지) 반복
         {
             float speed = Time.deltaTime / fadeDuration;//실행될 속도.
             Fade_img.alpha -= speed;
