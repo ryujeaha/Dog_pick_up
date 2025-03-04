@@ -254,6 +254,7 @@ GameObject:
   - component: {fileID: 334316988}
   - component: {fileID: 334316987}
   - component: {fileID: 334316986}
+  - component: {fileID: 334316990}
   m_Layer: 0
   m_Name: Cut_Scene_One_BG_IMG
   m_TagString: Untagged
@@ -290,6 +291,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: -0.05
+  Scene_Name: Lobby
 --- !u!64 &334316987
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -362,6 +364,51 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 334316984}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &334316990
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 334316984}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e52de21a22b6dd44c9cc19f810c65059, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Events:
+    m_Signals:
+    - {fileID: 11400000, guid: 1e57741e29cd34b449aa452dc2a20ab1, type: 2}
+    - {fileID: 11400000, guid: 4dc58e6ed29344b419e13a65c046486d, type: 2}
+    m_Events:
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 334316986}
+          m_TargetAssemblyTypeName: BG_Scrolling, Assembly-CSharp
+          m_MethodName: Stop_BG
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 334316986}
+          m_TargetAssemblyTypeName: BG_Scrolling, Assembly-CSharp
+          m_MethodName: cut_Scene_end
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &731349288
 GameObject:
   m_ObjectHideFlags: 0
@@ -372,7 +419,6 @@ GameObject:
   m_Component:
   - component: {fileID: 731349290}
   - component: {fileID: 731349289}
-  - component: {fileID: 731349291}
   m_Layer: 0
   m_Name: Director
   m_TagString: Untagged
@@ -407,6 +453,8 @@ PlayableDirector:
     value: {fileID: 963944462}
   - key: {fileID: -5570431210297255386, guid: 9afb9b01aca374b44b04c817bcac01f4, type: 2}
     value: {fileID: 963944462}
+  - key: {fileID: -5907752412252403098, guid: 9afb9b01aca374b44b04c817bcac01f4, type: 2}
+    value: {fileID: 334316990}
   m_ExposedReferences:
     m_References: []
 --- !u!4 &731349290
@@ -424,21 +472,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &731349291
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 731349288}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d9dddeb70905349439c19918e6addca9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  One_Scene_Time: 20
-  Scene_Name: Lobby
-  bG_Scrolling: {fileID: 0}
 --- !u!1 &963944460
 GameObject:
   m_ObjectHideFlags: 0
