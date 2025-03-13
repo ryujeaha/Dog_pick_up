@@ -1,17 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.UI;
 public class Event_Manager : MonoBehaviour
 {
+
     //다이알로그 관련
     [SerializeField] GameObject Dialogue_Bar_Ui;
      [SerializeField] GameObject Dialogue_Name_Ui;
     [SerializeField]Text Dialogue_TXT;
     [SerializeField] Text Dialogue_Name_TXT;
 
-    bool isdialogue = false;//대화중일 경우 true;
+    public bool isdialogue = false;//대화중일 경우 true;
     bool isnext = false;// 특정 키 입력 대기.
+
+    [Header("텍스트 출력 딜레이")]
+    [SerializeField] float textDelay;//텍스트 딜레이
 
     int line_count = 0;//대화카운트
     int context_count = 0;//대사 카운트
@@ -23,17 +28,30 @@ public class Event_Manager : MonoBehaviour
     [SerializeField] Text Time_TXT;//오전 오후
     Dialogue[] dialogue;
 
-    //이벤트 관련
-    bool is_oneday = false;//첫 대화 중복실행방지.
+    //튜토리얼 용 가이드 판
+    [SerializeField]
+    GameObject Guide_IMG;
+    private bool guide_on = false;
 
-    //애니매이터
-    [SerializeField] Animator dog_Anim;
-    
-    // Update is called once per frame
+    //Event정보가 모여있는 데이터베이스 변수
+    Event_DataBase E_Database;
+
+
+
+    void Start()
+    {
+        E_Database = GetComponent<Event_DataBase>();
+    }
+
     void Update()
     {
         Evnet_Gud();
         //다음으로 넘어가는지 키 체크 하는 부분.
+        TXT_Action();
+    }
+
+    void TXT_Action()
+    {
         if(isdialogue)
         {
             if(isnext)
@@ -81,7 +99,13 @@ public class Event_Manager : MonoBehaviour
          string t_replace_TXT = dialogue[line_count].context[context_count];//CSV구조상 못쓰는 문자들(,)등을 치환시킬 변수
          t_replace_TXT = t_replace_TXT.Replace("'",",");
 
-         Dialogue_TXT.text = t_replace_TXT;
+         Dialogue_Name_TXT.text = dialogue[line_count].name;
+         for(int i = 0; i < t_replace_TXT.Length; i++)
+         {
+              Dialogue_TXT.text += t_replace_TXT[i];//텍스트에 한글자씩 더해줌으로써 하나씩 출력되는 것처럼 보여줌.
+             yield return new WaitForSeconds(textDelay);//딜레이 부여
+         }
+        
 
          isnext = true;
          yield return null;
@@ -102,13 +126,17 @@ public class Event_Manager : MonoBehaviour
 
     void Evnet_Gud()//이벤트 판정을 위한 함수.(하드코딩)
     {
-        if(day == 1)//1일차 이벤트
-        {   
-            dog_Anim.SetBool("Is_Hurt",isdialogue);//첫번쨰 대화가 진행중이면 누워있는 모습,아니라면 멀쩡한 모습
-            if(!is_oneday)//한번도 실행 안됬다면
-            {   Event(1,6);               
-                is_oneday = true;
-            }
+       E_Database.E_DataBase(day);
+    }
+    public void Guide_Open()
+    {
+        if(guide_on == false)
+        {
+            Guide_IMG.SetActive(true);//가이드 이미지 켜줌.
         }
+    }
+    public void Guide_Off()
+    {
+        Guide_IMG.SetActive(false);//가이드 이미지 꺼줌.
     }
 }
