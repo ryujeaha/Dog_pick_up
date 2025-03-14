@@ -28,15 +28,11 @@ public class Event_Manager : MonoBehaviour
     [SerializeField] Text Time_TXT;//오전 오후
     Dialogue[] dialogue;
 
-    //튜토리얼 용 가이드 판
-    [SerializeField]
-    GameObject Guide_IMG;
-    private bool guide_on = false;
+    //일과 시스템 관련
+    public int[] Work = new int[2] {0,0};//오전과 오후의 일과데이터를 담을 배열
 
     //Event정보가 모여있는 데이터베이스 변수
     Event_DataBase E_Database;
-
-
 
     void Start()
     {
@@ -56,7 +52,7 @@ public class Event_Manager : MonoBehaviour
         {
             if(isnext)
             {
-                if(Input.GetKeyDown(KeyCode.Space))
+                if(Input.GetKeyDown(KeyCode.Space)||Input.GetMouseButtonDown(0))
                 {
                     isnext = false;
                     Dialogue_TXT.text = "";
@@ -105,13 +101,12 @@ public class Event_Manager : MonoBehaviour
               Dialogue_TXT.text += t_replace_TXT[i];//텍스트에 한글자씩 더해줌으로써 하나씩 출력되는 것처럼 보여줌.
              yield return new WaitForSeconds(textDelay);//딜레이 부여
          }
-        
-
          isnext = true;
          yield return null;
     }
     void End_dialogue()
     {
+        //초기화
         isdialogue = false;
         context_count = 0;
         line_count = 0;
@@ -124,19 +119,8 @@ public class Event_Manager : MonoBehaviour
         Show_Dialogue(this.GetComponent<Interaction_Event>().GetDialogues(Start_Num,End_Num));
     }
 
-    void Evnet_Gud()//이벤트 판정을 위한 함수.(하드코딩)
+    void Evnet_Gud()//이벤트 판정을 위한 함수.
     {
        E_Database.E_DataBase(day);
-    }
-    public void Guide_Open()
-    {
-        if(guide_on == false)
-        {
-            Guide_IMG.SetActive(true);//가이드 이미지 켜줌.
-        }
-    }
-    public void Guide_Off()
-    {
-        Guide_IMG.SetActive(false);//가이드 이미지 꺼줌.
     }
 }
