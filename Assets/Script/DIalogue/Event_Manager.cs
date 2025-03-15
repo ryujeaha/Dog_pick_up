@@ -5,6 +5,18 @@ using UnityEngine;
 using UnityEngine.UI;
 public class Event_Manager : MonoBehaviour
 {
+    //본인 인스턴스화.
+    public static Event_Manager Instance;
+
+    void Awake()
+    {
+        if(Instance == null){
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }else if(Instance != this){
+           Destroy(gameObject);
+        }
+    }
 
     //다이알로그 관련
     [SerializeField] GameObject Dialogue_Bar_Ui;
@@ -22,21 +34,35 @@ public class Event_Manager : MonoBehaviour
     int context_count = 0;//대사 카운트
 
     //날짜 관련
+
+    public enum Time{AM,PM};//열거형(순서대로 0,1상수로 고정)을 사용한 오전/오후를 나타낼 수.
+    public Time c_Time;//현재시간
     private int day = 1;//현재 날짜
-    public int Time = 2;//행동력
     [SerializeField]Text Day_TXT;//날짜
     [SerializeField] Text Time_TXT;//오전 오후
     Dialogue[] dialogue;
 
     //일과 시스템 관련
     public int[] Work = new int[2] {0,0};//오전과 오후의 일과데이터를 담을 배열
-
+    public enum Working{조깅하기,운동하기,원반물기,사냥하기,공부하기,훈련하기}//일과 활동들에 대응되는 번호들.(편의성을 위해 +1을 해줘야 대응됨)
+    //일과데이터와 매칭해서 이동해여할 씬 이름을 가져오기 위한 딕셔너리.
+    public Dictionary<int,string> Mini_Game_SceneName = new Dictionary<int,string>()
+    {
+        {1,"Jogging"},
+        {2,"Work_Out"},
+        {3,"FlyingDisc"},
+        {4,"Hunting"},
+        {5,"Study"},
+        {6,"Traning"},
+    };
     //Event정보가 모여있는 데이터베이스 변수
     Event_DataBase E_Database;
 
     void Start()
     {
+        c_Time = Time.AM;//시작하자마자 오전으로 바꾸어줌.
         E_Database = GetComponent<Event_DataBase>();
+        
     }
 
     void Update()

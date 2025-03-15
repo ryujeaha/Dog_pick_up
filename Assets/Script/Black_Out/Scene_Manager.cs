@@ -37,7 +37,6 @@ public class Scene_Manager : MonoBehaviour
     {
         StartCoroutine("Fade_Coroutine",Scene_Name);
     }
-
     private void load_Scene(Scene scene, LoadSceneMode mode)//로드후 암전을 풀어주는 함수.Scene scene, LoadSceneMode mode게 있어야지만 지정할수 있다.
     {
         StartCoroutine("Load_Coroutine");

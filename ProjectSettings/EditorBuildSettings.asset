@@ -14,4 +14,22 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Lobby.unity
     guid: 904f486d94cae804ebaaab16a48bea11
+  - enabled: 1
+    path: Assets/Scenes/MIni_Game/Jogging.unity
+    guid: 72c11de31210da446a9a57232dfb8d00
+  - enabled: 1
+    path: Assets/Scenes/MIni_Game/Work_Out.unity
+    guid: d4fda4de6b5faaa479a43eb6be4e58a9
+  - enabled: 1
+    path: Assets/Scenes/MIni_Game/FlyingDisc.unity
+    guid: 206459798ec354c4d8454575c180a8ef
+  - enabled: 1
+    path: Assets/Scenes/MIni_Game/Hunting.unity
+    guid: 21e371dd9cce9154cb82bd6575041b38
+  - enabled: 1
+    path: Assets/Scenes/MIni_Game/Study.unity
+    guid: c80cdaf262b01d74c981821500924657
+  - enabled: 1
+    path: Assets/Scenes/MIni_Game/Traning.unity
+    guid: 8ca859d54e203aa438ad4b323387848f
   m_configObjects: {}
