@@ -15,11 +15,13 @@ public class BTN_Manager : MonoBehaviour
     //일과 시작 화면
     [SerializeField]
     GameObject Work_Start_Screen;
+     //오후 일과 선택 불가 스트린
+    [SerializeField]
+     GameObject No_Work_Screen;
     //일과시작 안내 텍스트
     [SerializeField]
     Text Work_Guide_TXT;
-
-    Event_Manager.Working[] working;//검사를 위해서 배열로 만듬.
+       Event_Manager.Working[] working;//검사를 위해서 배열로 만듬.
     // Update is called once per frame
 
     void Start()
@@ -28,6 +30,7 @@ public class BTN_Manager : MonoBehaviour
         Guide_IMG = GameObject.Find("UI").transform.Find("Guide").gameObject;//비활성화되어도 찾기 위해서
         Work_Select_Screen = GameObject.Find("Screen").transform.Find("Work_Select_Screen").gameObject;//비활성화되어도 찾기 위해서
         Work_Start_Screen = GameObject.Find("Screen").transform.Find("Work_Start_Screen").gameObject;//비활성화되어도 찾기 위해서
+        No_Work_Screen = GameObject.Find("Screen").transform.Find("NO_Work_Screen").gameObject;//비활성화되어도 찾기 위해서
     }
 
     void Update()
@@ -42,7 +45,14 @@ public class BTN_Manager : MonoBehaviour
     }
     public void ON_Selection_BTN(bool p_fleg)
     {
+      if(Event_Manager.Instance.c_Time == Event_Manager.Time.오전)
+      {
         Work_Select_Screen.SetActive(p_fleg);//일과선택 이미지 켜줌.
+      }
+      else{
+        No_Work_Screen.SetActive(p_fleg);//일과선택 이미지 꺼줌.
+      }
+        
     }
 
     public void On_Start_Work_Screen(bool p_fleg)
