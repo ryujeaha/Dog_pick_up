@@ -12,7 +12,6 @@ public class Event_Manager : MonoBehaviour
     {
         if(Instance == null){
             Instance = this;
-            DontDestroyOnLoad(gameObject);
         }else if(Instance != this){
            Destroy(gameObject);
         }
@@ -23,6 +22,7 @@ public class Event_Manager : MonoBehaviour
      [SerializeField] GameObject Dialogue_Name_Ui;
     [SerializeField]Text Dialogue_TXT;
     [SerializeField] Text Dialogue_Name_TXT;
+
 
     public bool isdialogue = false;//대화중일 경우 true;
     bool isnext = false;// 특정 키 입력 대기.
@@ -35,9 +35,9 @@ public class Event_Manager : MonoBehaviour
 
     //날짜 관련
 
-    public enum Time{AM,PM};//열거형(순서대로 0,1상수로 고정)을 사용한 오전/오후를 나타낼 수.
-    public Time c_Time;//현재시간
-    private int day = 1;//현재 날짜
+    public enum Time{오전,오후,밤};//열거형(순서대로 0,1상수로 고정)을 사용한 오전/오후를 나타낼 수와 모든 일과를 끝냈을 경우를 나타낼 수.
+    public Time c_Time = Time.오전;//현재시간
+    public int day = 1;//현재 날짜
     [SerializeField]Text Day_TXT;//날짜
     [SerializeField] Text Time_TXT;//오전 오후
     Dialogue[] dialogue;
@@ -60,13 +60,14 @@ public class Event_Manager : MonoBehaviour
 
     void Start()
     {
-        c_Time = Time.AM;//시작하자마자 오전으로 바꾸어줌.
+        Save_Manager.Instance.Load_On();
+        Debug.Log("로드 완료");
         E_Database = GetComponent<Event_DataBase>();
-        
     }
 
     void Update()
     {
+        Time_Set();
         Evnet_Gud();
         //다음으로 넘어가는지 키 체크 하는 부분.
         TXT_Action();
@@ -140,6 +141,7 @@ public class Event_Manager : MonoBehaviour
         isnext = false;
         Setting_Dir_UI(false);
     }
+    //이벤트 관련.
     public void Event(int Start_Num,int End_Num)//대화창을 꺼내는 함수.
     {
         Show_Dialogue(this.GetComponent<Interaction_Event>().GetDialogues(Start_Num,End_Num));
@@ -148,5 +150,11 @@ public class Event_Manager : MonoBehaviour
     void Evnet_Gud()//이벤트 판정을 위한 함수.
     {
        E_Database.E_DataBase(day);
+    }
+    //시간 세팅 관련.
+    void Time_Set()
+    {
+        Day_TXT.text = "개를 키운지 "+day+"일째";
+        Time_TXT.text = c_Time.ToString();
     }
 }

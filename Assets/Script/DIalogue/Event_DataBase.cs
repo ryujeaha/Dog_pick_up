@@ -6,7 +6,6 @@ using UnityEngine;
 
 public class Event_DataBase : MonoBehaviour
 {
-
     //사용할 매니저들 가져오기
     private BTN_Manager B_Manager;
     //이벤트 관련
@@ -22,8 +21,8 @@ public class Event_DataBase : MonoBehaviour
     public void E_DataBase(int day)
     {
         switch(day){
-            case  1 : 
-                if(Event_Manager.Instance.c_Time == Event_Manager.Time.AM)//오전이라면
+            case  1 : //1일차 이벤트
+                if(Event_Manager.Instance.c_Time == Event_Manager.Time.오전)//오전이라면
                 {
                     dog_Anim.SetBool("Is_Hurt",Event_Manager.Instance.isdialogue);//첫번쨰 대화가 진행중이면 누워있는 모습,아니라면 멀쩡한 모습
                     if(!is_oneday)//한번도 실행 안됬다면
