@@ -18,6 +18,13 @@ public class Mini_Game_One : MonoBehaviour
     int Ready_Count = 3;//3초를 셀 변수.
     [SerializeField] Text Ready_TXT;
 
+     //점프 관련
+    [SerializeField] Rigidbody2D my_Rig;//본인의 리지드 바디 찾아주기
+    public float jump_Porce;//점프 힘 정도 변수
+    [SerializeField] GameObject G_check_box;
+    bool isGrounded;//점프 체크 변수.
+    // Start is ca
+
     // Start is called before the first frame update
     void Start()
     {
@@ -32,6 +39,7 @@ public class Mini_Game_One : MonoBehaviour
         {
             Timer();
             Score_Check();
+            Jump();
         }
     }
 
@@ -45,6 +53,25 @@ public class Mini_Game_One : MonoBehaviour
         score += (speed  * Time.deltaTime);
         Score_TxT.text = "현재 산책한 거리\n"+Mathf.Round(score).ToString()+"m";
     }
+
+        void Jump()//점프 함수
+    {
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            Debug.Log("점프");
+            RaycastHit2D hit = Physics2D.Raycast(G_check_box.transform.position,Vector2.down,0.2f);//맞은 객체의 정보를 저장할 변수 hit와 레이의 시작위치,방향,길이
+            if(hit.collider != null && hit.collider.CompareTag("Floor"))
+            {
+                Debug.Log("발사!");
+                my_Rig.AddForce(Vector2.up * jump_Porce, ForceMode2D.Impulse);
+            }
+            else if(hit.collider == null)
+            {
+                Debug.Log("점프 안되");
+            }
+        }
+    }
+
 
     IEnumerator Ready_Coroutin()//레디 단계 코루틴
     {
