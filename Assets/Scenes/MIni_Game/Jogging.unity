@@ -226,7 +226,6 @@ GameObject:
   - component: {fileID: 192015504}
   - component: {fileID: 192015506}
   - component: {fileID: 192015505}
-  - component: {fileID: 192015507}
   m_Layer: 0
   m_Name: P_Box
   m_TagString: Untagged
@@ -324,21 +323,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 3, y: 2.3139758}
   m_EdgeRadius: 0
---- !u!114 &192015507
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 192015503}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 58b16a61d285bc441aeffd9c48b56116, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  myr_Rig: {fileID: 192015505}
-  jump_Porce: 8
-  G_check_box: {fileID: 941413605}
 --- !u!1 &364042318
 GameObject:
   m_ObjectHideFlags: 0
@@ -2610,6 +2594,9 @@ MonoBehaviour:
   score: 0
   Score_TxT: {fileID: 1361906543}
   Ready_TXT: {fileID: 900767425}
+  my_Rig: {fileID: 192015505}
+  jump_Porce: 8
+  G_check_box: {fileID: 941413605}
 --- !u!1 &1969118924
 GameObject:
   m_ObjectHideFlags: 0
