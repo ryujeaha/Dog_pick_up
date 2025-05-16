@@ -6,7 +6,7 @@ using UnityEngine;
 public class Database_Manager : MonoBehaviour
 {
     public static Database_Manager Instance;//본인 스스로를 스태틱화(인스턴스화)
-
+    
     [SerializeField] string CSV_FileName;//가져올 파일의 이름.
 
     Dictionary<int,Dialogue> dialogue_Dic = new Dictionary<int, Dialogue>();//
