@@ -23,8 +23,19 @@ public class Mini_Game_One : MonoBehaviour
     public float jump_Porce;//점프 힘 정도 변수
     [SerializeField] GameObject G_check_box;
     bool isGrounded;//점프 체크 변수.
-    // Start is ca
 
+    //패턴 스폰 관련.
+    [SerializeField] GameObject[] Pattens;//생성할 패턴들.
+    public GameObject P_Spawns;//스폰포인트를 담을 변수
+    public float spawn_cooltime;//쿨타임 기준 설정
+    public float cooltime;//실제 쿨타임 연산
+
+
+    //체력바, 부스터 관련
+    [SerializeField] Slider Hp_Bar;//체력바
+    float Dog_Hp = 100;
+    [SerializeField] Slider Boost_Bar;//부스트 바
+    float Dog_Boost = 0;
     // Start is called before the first frame update
     void Start()
     {
@@ -35,11 +46,12 @@ public class Mini_Game_One : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(is_Start)
+        if (is_Start)
         {
             Timer();
             Score_Check();
             Jump();
+            SpawnCool();
         }
     }
 
@@ -72,7 +84,20 @@ public class Mini_Game_One : MonoBehaviour
         }
     }
 
-
+    void SpawnCool()//패턴 스폰 쿨타임 관련 함수.
+    {
+        cooltime -= Time.deltaTime;//실제 쿨타임 연산
+        if (cooltime <= 0)//만약 쿨타임이 델타타임에서부터 깎여 0초가 되었다면
+        {
+            Spawn_Patten();//적 소환
+            cooltime = spawn_cooltime;//쿨 기준 초기화 <= 다시 0이되면 적 스폰
+        }
+    }
+    void Spawn_Patten()
+    {
+        int P_Num = Random.Range(0, Pattens.Length);//0에서 나올 패턴들의 끝 번호중에서 하나를 랜덤하게 추출.
+        GameObject Patten = Instantiate(Pattens[P_Num], new Vector2(P_Spawns.transform.position.x + 0.5f, Pattens[P_Num].GetComponent<Game_One_Patten>().y_pos),Quaternion.identity);
+    }
     IEnumerator Ready_Coroutin()//레디 단계 코루틴
     {
         while(!is_Start)//레디 단계일 동안.

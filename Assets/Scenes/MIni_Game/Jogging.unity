@@ -839,7 +839,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1848bdf1d479dc44d8b7ba6f26edec6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: -0.05
+  speed: -0.15
   Scene_Name: Lobby
 --- !u!64 &830710575
 MeshCollider:
@@ -1311,7 +1311,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0.082276225}
@@ -1738,7 +1738,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0, y: -0.0065785795}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -1749,7 +1749,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1, y: 0.9868429}
   m_EdgeRadius: 0
 --- !u!212 &1254975494
 SpriteRenderer:
@@ -2576,6 +2576,7 @@ Transform:
   m_Children:
   - {fileID: 830710572}
   - {fileID: 192015504}
+  - {fileID: 1986502238}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1931833801
@@ -2597,6 +2598,13 @@ MonoBehaviour:
   my_Rig: {fileID: 192015505}
   jump_Porce: 8
   G_check_box: {fileID: 941413605}
+  Pattens:
+  - {fileID: 3014723907922621516, guid: e21fd38597a8d9c4d8a22b0b14d43f91, type: 3}
+  - {fileID: 2477366257366813969, guid: 9304136d831a71545aae9360051c04ea, type: 3}
+  - {fileID: 796232724019057339, guid: f7f6fb06e6f435f48ab5edabd2a0cad4, type: 3}
+  P_Spawns: {fileID: 1986502237}
+  spawn_cooltime: 2
+  cooltime: 0
 --- !u!1 &1969118924
 GameObject:
   m_ObjectHideFlags: 0
@@ -2672,6 +2680,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1969118924}
   m_CullTransparentMesh: 1
+--- !u!1 &1986502237
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1986502238}
+  m_Layer: 0
+  m_Name: Spqwn_Patten
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1986502238
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1986502237}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -8, y: -2, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1931833800}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
