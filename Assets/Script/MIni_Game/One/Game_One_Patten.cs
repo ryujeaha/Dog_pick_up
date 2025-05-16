@@ -8,6 +8,7 @@ public class Game_One_Patten : MonoBehaviour
     //패턴 이동관련
     public float y_pos;//생성될 위치
     [SerializeField] float speed;//속도 값
+    [SerializeField] float damage;//각자 패턴마다의 대미지 값.
 
     Mini_Game_One mini_Game_One;//매니저 가져오기
 
@@ -23,7 +24,17 @@ public class Game_One_Patten : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        Destroy(gameObject);//삭제
+        if (collision.tag == "Player")
+        {
+            Destroy(gameObject);//삭제
+            if (mini_Game_One.isBoost != true)
+            {
+                mini_Game_One.Dog_c_Hp -= damage;//대미지 연산.
+                mini_Game_One.Dog_c_Boost -= (damage / 2);
+                mini_Game_One.Update_Bar();
+            }
+        }
+     
     }
 
     private void OnBecameInvisible()//화면밖으로 객체가 나가면 호출되는 함수

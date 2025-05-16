@@ -172,4 +172,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   y_pos: -2.5
-  speed: 4
+  speed: 7
+  damage: 30
