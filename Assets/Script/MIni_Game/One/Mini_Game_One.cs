@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class Mini_Game_One : MonoBehaviour
 {
     //타이머
-    private float c_Time = 60;//현재시간; 기본값 60초
+    private float c_Time = 30;//현재시간; 기본값 60초
     [SerializeField] Text Timer_Txt;//제한시간 표시 텍스트
 
     //거리 재기(점수측정)
@@ -36,15 +36,21 @@ public class Mini_Game_One : MonoBehaviour
     //체력바, 부스터 관련
     [SerializeField] Image Hp_Bar;//체력바
     [SerializeField] Image Boost_Bar;//부스트 바
+    [SerializeField] GameObject Boost_alarm_TXT;
 
     public float Dog_c_Hp = 100;//현재 체력
     public float Dog_c_Boost = 0;//현재 부스트 게이지
-   public bool isBoost;//부스트 중인지 판별한 변수
-    
+
+    bool Ready_Boost = false;//부스트 가능여부 벼눗
+    public bool isBoost;//부스트 중인지 판별한 변수
+
+    //부스트 증가 관련
+    bool Boost_cool_Start= false;//부스트 게이지 시작을 알릴 변수.
+    float Boost_Up_Cnt = 1;//몇초마다 부스트게이지를 증가시킬지를 관리하는 변수
+
     float Dog_Max_Hp = 100;//최대 체력
     float Dog_Max_Boost = 100;//부스트 최대치.
 
-    
     [SerializeField] float Boost_Speed;//증감되는 부스터 게이지 값
 
     //게임 오버 관련
@@ -95,10 +101,10 @@ public class Mini_Game_One : MonoBehaviour
         if (c_Time <= 0 || Dog_c_Hp <= 0)
         {
             is_Start = false;
-            reward_TxT.text = "산책한 거리: " + score + "미터";
-            r_Time_Txt.text = "산책한 시간: " + ((60) - c_Time) + "초";
+            reward_TxT.text = "산책한 거리: " + Mathf.Round(score).ToString() + "미터";
+            r_Time_Txt.text = "산책한 시간: " + Mathf.Round((30 - c_Time)) + "초";
             Game_Over_screen.SetActive(true);
-
+            Boost_alarm_TXT.SetActive(false);//알람 꺼주기   
             Time.timeScale = 0.001f;//시간 멈추기
         }
     }
@@ -141,14 +147,42 @@ public class Mini_Game_One : MonoBehaviour
     }
 
 
-void Boost_On()
-{
-    if (Dog_c_Boost >= 100&&!isBoost)
+    void Boost_On()
     {
-            Debug.Log("실행");
-        StartCoroutine(Boost());
+        if (Ready_Boost)//부스트가 가능하다면
+        {
+            if (Input.GetKeyDown(KeyCode.R) && !isBoost)//R을 눌렀고 이미 부스트 중이 아니라면
+            {
+                StartCoroutine(Boost());
+                Boost_alarm_TXT.SetActive(false);//알람 꺼주기   
+            }
+        }
+        if (Boost_cool_Start)//부스트 쿨을 시작해야 한다면.
+            {
+                Boost_Up_Cnt -= Time.deltaTime;//초당 빼기
+                if (Boost_Up_Cnt <= 0)//1초마다 부스트 게이지 올리기
+                {
+                    if (Dog_c_Boost >= 100 && !isBoost)//부스트 게이지가 일정량을 넘었고,부스트 중이 아니라면.
+                    {
+                        Boost_alarm_TXT.SetActive(true);//알람 켜주기
+                        Debug.Log("준비");
+                        Boost_cool_Start = false;//부스트 게이지 증가 안함.
+                        Dog_c_Boost = 100;//100고정
+                        Ready_Boost = true;//부스트 가능
+                    }
+                    else//아직 증가 해야할때면
+                    {
+                        Ready_Boost = false;//증가해야할떄면 부스트키가 안되도록,이후 코루틴이 끝나면 자동으로 이 반복문이 되므로. 부스트를 막게됨.
+                        Dog_c_Boost += Boost_Speed;
+                        Debug.Log("증가");
+                        Update_Bar();
+                        Boost_Up_Cnt = 1;
+                    }
+
+                }
+            }
+       
     }
-}
 
     IEnumerator Ready_Coroutin()//레디 단계 코루틴
     {
@@ -170,45 +204,34 @@ void Boost_On()
                 P_anim.SetBool("Is_Work", true);
                 P_anim.SetBool("Is_Idle", false);
                 D_anim.SetBool("Is_RUN", true);
-                StartCoroutine("Boost_Up");//모든 작업이 끝났다면 부스트 게이지 증감 시작.
+                Boost_cool_Start = true;//모든 작업이 끝났다면 부스트 게이지 증감 시작.
             }
         }
     }
-    IEnumerator Boost_Up()//부스트 충전 코루틴 12.5씩1초
+    
+    IEnumerator Boost()//부스트 온 함수
     {
-        if (!isBoost)//부스트중이 아닐때만
-        {
-            while (Dog_c_Boost < 100)//100이 되면 멈추도록
-            {
-                Dog_c_Boost += Boost_Speed;
-                Debug.Log("증가");
-                Update_Bar();
-                yield return new WaitForSeconds(1f);//1초마다 반복
-            }
-        }
-      
-    }
-    IEnumerator Boost()//부스트 온 코루틴
-    {
-        StopCoroutine("Boost_Up");
         while (Dog_c_Boost > 0)//다 소진 되기 전까지.
         {
             isBoost = true;//무적 온
-            Dog_c_Boost -= 20f;//5초 지속되도록
+            Dog_c_Boost -= 35f;//5초 지속되도록
             Debug.Log("감소");
             Update_Bar();
-            bG_Scrolling.speed = -5.0f;
+            bG_Scrolling.speed = -3.0f;
             D_anim.SetFloat("Run_Speed", 5f);
-            max_speed = 200;
-            min_speed = 190;
+            P_anim.SetFloat("P_Run_Speed", 2f);
+            max_speed = 200;//점수 버프
+            min_speed = 190;//점수 버프
             yield return new WaitForSeconds(1f);//1초마다 반복
         }
-            //부스트 게이지가 모두 떨어졌다면.
+        //부스트 게이지가 모두 떨어졌다면.
+            Dog_c_Boost = 0;//초기화
             isBoost = false;//무적 오프
             bG_Scrolling.speed = -0.2f;
-            D_anim.SetFloat("Run_Speed", 2f);
+            D_anim.SetFloat("Run_Speed", 1.5f);
+            P_anim.SetFloat("P_Run_Speed", 1f);
             max_speed = 20;
             min_speed = 10;
-            StartCoroutine("Boost_Up");//모든 작업이 끝났다면 부스트 게이지 증감 시작
+            Boost_cool_Start = true;//모든 작업이 끝났다면 부스트 게이지 증감 시작.
     }
 }
