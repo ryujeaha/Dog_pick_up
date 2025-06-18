@@ -4922,6 +4922,10 @@ PrefabInstance:
       value: Scene_Manager
       objectReference: {fileID: 0}
     - target: {fileID: 3623260825063591758, guid: a2a04d22bcdda2641812def6f81f0884, type: 3}
+      propertyPath: Fade_img
+      value: 
+      objectReference: {fileID: 741270384}
+    - target: {fileID: 3623260825063591758, guid: a2a04d22bcdda2641812def6f81f0884, type: 3}
       propertyPath: fadeDuration
       value: 3
       objectReference: {fileID: 0}

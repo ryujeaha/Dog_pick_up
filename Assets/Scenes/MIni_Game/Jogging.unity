@@ -835,7 +835,6 @@ GameObject:
   - component: {fileID: 830710576}
   - component: {fileID: 830710575}
   - component: {fileID: 830710574}
-  - component: {fileID: 830710573}
   m_Layer: 0
   m_Name: Jogging_BG_IMG
   m_TagString: Untagged
@@ -860,51 +859,6 @@ Transform:
   - {fileID: 1254975492}
   m_Father: {fileID: 1931833800}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &830710573
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 830710571}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e52de21a22b6dd44c9cc19f810c65059, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Events:
-    m_Signals:
-    - {fileID: 11400000, guid: 1e57741e29cd34b449aa452dc2a20ab1, type: 2}
-    - {fileID: 11400000, guid: 4dc58e6ed29344b419e13a65c046486d, type: 2}
-    m_Events:
-    - m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 830710574}
-          m_TargetAssemblyTypeName: BG_Scrolling, Assembly-CSharp
-          m_MethodName: Stop_BG
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-    - m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 830710574}
-          m_TargetAssemblyTypeName: BG_Scrolling, Assembly-CSharp
-          m_MethodName: cut_Scene_end
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
 --- !u!114 &830710574
 MonoBehaviour:
   m_ObjectHideFlags: 0

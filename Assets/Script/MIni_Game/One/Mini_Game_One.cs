@@ -107,7 +107,7 @@ public class Mini_Game_One : MonoBehaviour
             r_Time_Txt.text = "산책한 시간: " + Mathf.Round((30 - c_Time)) + "초";
             Game_Over_screen.SetActive(true);
             Boost_alarm_TXT.SetActive(false);//알람 꺼주기   
-            Time.timeScale = 0.001f;//시간 멈추기
+            Time.timeScale = 0.01f;//시간 멈추기
         }
     }
     void Timer()

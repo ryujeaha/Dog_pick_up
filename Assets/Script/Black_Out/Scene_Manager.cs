@@ -19,7 +19,8 @@ public class Scene_Manager : MonoBehaviour
     private float fadeDuration = 3; //암전되는 시간
     void Start()
     {
-        if(instance != null)//시작했을떄 이미 정보를 가진 객체가 존재한다면 충돌 방지를 위해 그 객체를 없에고 이 객체를 유지함.
+        Time.timeScale = 1f;//다른씬에서 연출을 위해 시간을 건드렸을 경우 초기화.
+        if (instance != null)//시작했을떄 이미 정보를 가진 객체가 존재한다면 충돌 방지를 위해 그 객체를 없에고 이 객체를 유지함.
         {
             DestroyImmediate(this.gameObject);//DestroyImmediate는 지연시간 줄 수 없어 즉시 삭제하며,Destroy는 지연시간을 줄 수있다.
             //Destroy는 오류(가비지)가 많이생겨 여러번 삭제가 필요할시 쓰지 않는다.
@@ -48,9 +49,10 @@ public class Scene_Manager : MonoBehaviour
         Fade_img.blocksRaycasts = true; //코루틴이 실행되면 버튼이 눌리는것을 막기.
         while(Fade_img.alpha < 1.0f)//알파값이 1이 되기 전까지(다 켜지기 전까지) 반복
         {
-            float speed = Time.deltaTime / fadeDuration;//실행될 속도.
+            float speed = Time.unscaledDeltaTime  / fadeDuration;//실행될 속도.
+            //unscaledDeltaTime 은 특정 씬에서 타임스케일을 줄여도 영향받지 않고 일정한 계산을 할수있도록 하기 위해 채용.
             Fade_img.alpha += speed;
-           yield return new WaitForSeconds(speed);//0.01초마다 실행
+           yield return new WaitForSecondsRealtime(speed);//0.01초마다 실행
         }
         Fade_img.blocksRaycasts = false; //코루틴이 끝나면 버튼을 다시 키기.
         AsyncOperation async = SceneManager.LoadSceneAsync(Scene_Name);//비동기 방식 씬로드방식으로 loadScene과 다르게 다른작업을 같이 수행할 수 있음
@@ -63,9 +65,10 @@ public class Scene_Manager : MonoBehaviour
         Fade_img.blocksRaycasts = true; //코루틴이 실행되면 버튼이 눌리는것을 막기.
         while(Fade_img.alpha > 0f)//알파값이 0이 되기 전까지(다 켜지기 전까지) 반복
         {
-            float speed = Time.deltaTime / fadeDuration;//실행될 속도.
+            float speed = Time.unscaledDeltaTime  / fadeDuration;//실행될 속도.
+            //unscaledDeltaTime 은 특정 씬에서 타임스케일을 줄여도 영향받지 않고 일정한 계산을 할수있도록 하기 위해 채용.
             Fade_img.alpha -= speed;
-           yield return new WaitForSeconds(speed);//0.01초마다 실행
+           yield return new WaitForSecondsRealtime(speed);//0.01초마다 실행
         }
         Fade_img.blocksRaycasts = false; //코루틴이 끝나면 버튼을 다시 키기.
     }
