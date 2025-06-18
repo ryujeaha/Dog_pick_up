@@ -53,7 +53,7 @@ public class Mini_Game_One : MonoBehaviour
     float Dog_Max_Boost = 100;//부스트 최대치.
 
     [SerializeField] float Boost_Speed;//증감되는 부스터 게이지 값
-
+    [SerializeField] GameObject Dash_Particle;
     //게임 오버 관련
     [SerializeField] GameObject Game_Over_screen;
     [SerializeField] Text reward_TxT;//점수를 보여줄 텍스트
@@ -210,6 +210,7 @@ public class Mini_Game_One : MonoBehaviour
 
     IEnumerator Boost()//부스트 온 함수
     {
+        Dash_Particle.SetActive(true);
         while (Dog_c_Boost > 0)//다 소진 되기 전까지.
         {
             isBoost = true;//무적 온
@@ -224,6 +225,7 @@ public class Mini_Game_One : MonoBehaviour
             yield return new WaitForSeconds(1f);//1초마다 반복
         }
         //부스트 게이지가 모두 떨어졌다면.
+        Dash_Particle.SetActive(false);
         Dog_c_Boost = 0;//초기화
         isBoost = false;//무적 오프
         bG_Scrolling.speed = -0.2f;
