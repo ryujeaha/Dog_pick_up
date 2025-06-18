@@ -30,6 +30,7 @@ public class Mini_Game_One : MonoBehaviour
     [SerializeField] GameObject[] Pattens;//생성할 패턴들.
     public GameObject P_Spawns;//스폰포인트를 담을 변수
     public float spawn_cooltime;//쿨타임 기준 설정
+    public float D_spawn_cooltime;//대쉬 시 쿨타임 기준 설정초기화를 위한 원래 쿨타임 저장변수
     public float cooltime;//실제 쿨타임 연산
 
 
@@ -46,7 +47,7 @@ public class Mini_Game_One : MonoBehaviour
 
     //부스트 증가 관련
     bool Boost_cool_Start= false;//부스트 게이지 시작을 알릴 변수.
-    float Boost_Up_Cnt = 1;//몇초마다 부스트게이지를 증가시킬지를 관리하는 변수
+    float Boost_Up_Cnt = 0;//몇초마다 부스트게이지를 증가시킬지를 관리하는 변수
 
     float Dog_Max_Hp = 100;//최대 체력
     float Dog_Max_Boost = 100;//부스트 최대치.
@@ -69,6 +70,7 @@ public class Mini_Game_One : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        D_spawn_cooltime = spawn_cooltime;//시작하자 마자 원래 쿨타임 저장.
         bG_Scrolling = FindAnyObjectByType<BG_Scrolling>();
         is_Start = false;
         Update_Bar();
@@ -133,6 +135,9 @@ public class Mini_Game_One : MonoBehaviour
 
     void SpawnCool()//패턴 스폰 쿨타임 관련 함수.
     {
+        if (isBoost)//대쉬중이라면
+        { spawn_cooltime = 0.3f; }
+        else{spawn_cooltime = D_spawn_cooltime;}
         cooltime -= Time.deltaTime;//실제 쿨타임 연산
         if (cooltime <= 0)//만약 쿨타임이 델타타임에서부터 깎여 0초가 되었다면
         {
@@ -157,31 +162,25 @@ public class Mini_Game_One : MonoBehaviour
                 Boost_alarm_TXT.SetActive(false);//알람 꺼주기   
             }
         }
-        if (Boost_cool_Start)//부스트 쿨을 시작해야 한다면.
+        else if (Boost_cool_Start)//부스트 쿨을 시작해야 한다면.(부스트가 가능한게 아니라면)
+        {
+            Boost_Up_Cnt -= Time.deltaTime;//초당 빼기
+            if (Boost_Up_Cnt <= 0)//1초마다 부스트 게이지 올리기
             {
-                Boost_Up_Cnt -= Time.deltaTime;//초당 빼기
-                if (Boost_Up_Cnt <= 0)//1초마다 부스트 게이지 올리기
-                {
-                    if (Dog_c_Boost >= 100 && !isBoost)//부스트 게이지가 일정량을 넘었고,부스트 중이 아니라면.
-                    {
-                        Boost_alarm_TXT.SetActive(true);//알람 켜주기
-                        Debug.Log("준비");
-                        Boost_cool_Start = false;//부스트 게이지 증가 안함.
-                        Dog_c_Boost = 100;//100고정
-                        Ready_Boost = true;//부스트 가능
-                    }
-                    else//아직 증가 해야할때면
-                    {
-                        Ready_Boost = false;//증가해야할떄면 부스트키가 안되도록,이후 코루틴이 끝나면 자동으로 이 반복문이 되므로. 부스트를 막게됨.
-                        Dog_c_Boost += Boost_Speed;
-                        Debug.Log("증가");
-                        Update_Bar();
-                        Boost_Up_Cnt = 1;
-                    }
-
-                }
+                Dog_c_Boost += Boost_Speed;
+                Debug.Log("증가");
+                Boost_Up_Cnt = 1;
+                Update_Bar();
             }
-       
+            if (Dog_c_Boost >= 100 && !isBoost)//부스트 게이지가 일정량을 넘었고,부스트 중이 아니라면.
+            {
+                Boost_alarm_TXT.SetActive(true);//알람 켜주기
+                Debug.Log("준비");
+                Boost_cool_Start = false;//부스트 게이지 증가 안함.
+                Dog_c_Boost = 100;//100고정
+                Ready_Boost = true;//부스트 가능
+            }
+        }
     }
 
     IEnumerator Ready_Coroutin()//레디 단계 코루틴
@@ -208,7 +207,7 @@ public class Mini_Game_One : MonoBehaviour
             }
         }
     }
-    
+
     IEnumerator Boost()//부스트 온 함수
     {
         while (Dog_c_Boost > 0)//다 소진 되기 전까지.
@@ -225,13 +224,14 @@ public class Mini_Game_One : MonoBehaviour
             yield return new WaitForSeconds(1f);//1초마다 반복
         }
         //부스트 게이지가 모두 떨어졌다면.
-            Dog_c_Boost = 0;//초기화
-            isBoost = false;//무적 오프
-            bG_Scrolling.speed = -0.2f;
-            D_anim.SetFloat("Run_Speed", 1.5f);
-            P_anim.SetFloat("P_Run_Speed", 1f);
-            max_speed = 20;
-            min_speed = 10;
-            Boost_cool_Start = true;//모든 작업이 끝났다면 부스트 게이지 증감 시작.
+        Dog_c_Boost = 0;//초기화
+        isBoost = false;//무적 오프
+        bG_Scrolling.speed = -0.2f;
+        D_anim.SetFloat("Run_Speed", 1.5f);
+        P_anim.SetFloat("P_Run_Speed", 1f);
+        max_speed = 20;
+        min_speed = 10;
+        Boost_cool_Start = true;//모든 작업이 끝났다면 부스트 게이지 증감 시작.
+        Ready_Boost = false;//증가해야할떄면 부스트키가 안되도록,이후 코루틴이 끝나면 자동으로 이 반복문이 되므로. 부스트를 막게됨.
     }
 }

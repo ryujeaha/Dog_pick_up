@@ -2942,6 +2942,7 @@ MonoBehaviour:
   - {fileID: 796232724019057339, guid: f7f6fb06e6f435f48ab5edabd2a0cad4, type: 3}
   P_Spawns: {fileID: 1986502237}
   spawn_cooltime: 1.8
+  D_spawn_cooltime: 0
   cooltime: 0
   Hp_Bar: {fileID: 984788277}
   Boost_Bar: {fileID: 1969118926}

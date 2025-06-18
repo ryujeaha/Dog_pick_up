@@ -21,7 +21,8 @@ public class Game_One_Patten : MonoBehaviour
     {
         if (mini_Game_One.isBoost)//대쉬중이라면 빠른속도로
         {
-             transform.Translate(new Vector3(1, 0, 0) * (speed * 3)* Time.deltaTime);//해당 방향으로,속도값만큼,일정한 속도를 위해서 deltaTime 곱해줌.
+            mini_Game_One.spawn_cooltime = 0.3f;
+            transform.Translate(new Vector3(1, 0, 0) * (speed * 3) * Time.deltaTime);//해당 방향으로,속도값만큼,일정한 속도를 위해서 deltaTime 곱해줌.
         }
         else//대쉬가 아닐떄는 평범한 속도로 
         {
